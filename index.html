@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OmniTrust-Med</title>
+  <title>OmniTrust-Med — Multilingual multimodal medical trust MCQA</title>
   <meta
     name="description"
-    content="OmniTrust-Med is a project website for securing medical devices, digital health platforms, and healthcare systems with end-to-end trust lifecycle management."
+    content="OmniTrust-Med is an open research benchmark for evaluating LLM trustworthiness on medical multiple-choice questions in text and speech, across 20 languages."
   >
   <style>
     :root {
@@ -18,6 +18,7 @@
       --muted: #a7bbda;
       --primary: #6dd3ff;
       --primary-strong: #2db3eb;
+      --accent-soft: rgba(109, 211, 255, 0.12);
       --border: rgba(167, 187, 218, 0.2);
       --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
     }
@@ -30,14 +31,21 @@
       margin: 0;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top, rgba(45, 179, 235, 0.25), transparent 32%),
+        radial-gradient(circle at top, rgba(45, 179, 235, 0.18), transparent 32%),
         linear-gradient(180deg, var(--bg) 0%, #060c16 100%);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     a {
-      color: inherit;
+      color: var(--primary);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.15em;
+    }
+
+    a:hover,
+    a:focus-visible {
+      color: var(--primary-strong);
     }
 
     .page {
@@ -47,7 +55,8 @@
     }
 
     .hero,
-    .panel {
+    .panel,
+    .status-banner {
       background: var(--panel);
       border: 1px solid var(--border);
       border-radius: 24px;
@@ -59,58 +68,83 @@
       padding: 4rem;
       display: grid;
       gap: 2.5rem;
-      grid-template-columns: 1.3fr 0.9fr;
-      align-items: center;
+      grid-template-columns: 1.35fr 0.85fr;
+      align-items: start;
     }
 
-    .eyebrow {
+    .eyebrow,
+    .status-badge {
       display: inline-block;
       margin-bottom: 1rem;
       padding: 0.35rem 0.75rem;
       border-radius: 999px;
-      background: rgba(109, 211, 255, 0.12);
-      color: var(--primary);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
       letter-spacing: 0.02em;
     }
 
+    .eyebrow {
+      background: var(--accent-soft);
+      color: var(--primary);
+    }
+
+    .status-badge {
+      margin-bottom: 0;
+      background: rgba(255, 196, 109, 0.12);
+      color: #ffd89a;
+    }
+
     h1,
     h2,
+    h3,
     p {
       margin-top: 0;
     }
 
     h1 {
       margin-bottom: 1rem;
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      line-height: 1.05;
-      letter-spacing: -0.04em;
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      margin-bottom: 0.75rem;
+      font-size: 1.15rem;
+    }
+
+    h3 {
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--primary);
+      font-weight: 600;
+      letter-spacing: 0.01em;
     }
 
     .lead {
       max-width: 42rem;
-      margin-bottom: 1.75rem;
+      margin-bottom: 1.5rem;
       color: var(--muted);
-      font-size: 1.1rem;
+      font-size: 1.08rem;
     }
 
     .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.85rem;
     }
 
     .button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 3rem;
-      padding: 0.75rem 1.2rem;
+      min-height: 2.85rem;
+      padding: 0.7rem 1.15rem;
       border: 1px solid transparent;
       border-radius: 999px;
       text-decoration: none;
-      font-weight: 700;
+      font-weight: 600;
+      font-size: 0.95rem;
       transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
     }
 
@@ -127,6 +161,7 @@
     .button-secondary {
       border-color: var(--border);
       background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
     }
 
     .hero-card {
@@ -136,15 +171,32 @@
       border: 1px solid rgba(109, 211, 255, 0.18);
     }
 
-    .hero-card h2 {
-      margin-bottom: 0.75rem;
-      font-size: 1.15rem;
-    }
-
-    .hero-card ul {
+    .hero-card ul,
+    .list {
       padding-left: 1.2rem;
       margin: 0;
       color: var(--muted);
+    }
+
+    .hero-card li + li,
+    .list li + li {
+      margin-top: 0.45rem;
+    }
+
+    .status-banner {
+      margin-top: 1.5rem;
+      padding: 1rem 1.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.25rem;
+    }
+
+    .status-banner p {
+      margin: 0;
+      color: var(--muted);
+      flex: 1 1 18rem;
+      font-size: 0.98rem;
     }
 
     .grid {
@@ -152,6 +204,10 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1.5rem;
       margin-top: 1.5rem;
+    }
+
+    .grid-two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .panel {
@@ -163,16 +219,57 @@
       color: var(--muted);
     }
 
-    .list {
+    .pipeline {
+      display: grid;
+      gap: 0.85rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pipeline li {
+      padding: 0.85rem 1rem;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(167, 187, 218, 0.12);
+      color: var(--muted);
+    }
+
+    .pipeline strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .lang-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .lang-tags span {
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .links-list {
       margin: 0;
       padding-left: 1.1rem;
+    }
+
+    .links-list li {
+      margin-bottom: 0.45rem;
     }
 
     footer {
       margin-top: 2rem;
       text-align: center;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
     }
 
     @media (max-width: 860px) {
@@ -186,7 +283,8 @@
         padding: 2rem;
       }
 
-      .grid {
+      .grid,
+      .grid-two {
         grid-template-columns: 1fr;
       }
     }
@@ -196,57 +294,109 @@
   <main class="page">
     <section class="hero">
       <div>
-        <span class="eyebrow">OmniTrust-Med</span>
-        <h1>Trust lifecycle management for healthcare and MedTech.</h1>
+        <span class="eyebrow">Open research · researchers for researchers</span>
+        <h1>Multilingual, multimodal trust evaluation for medical MCQA.</h1>
         <p class="lead">
-          OmniTrust-Med is focused on helping medical devices, digital health platforms, and connected healthcare systems
-          maintain verifiable trust from design and provisioning through deployment, operation, and audit.
+          <strong>OmniTrust-Med</strong> is a community benchmark built from the TrustFullQA healthcare subset.
+          We study whether language models answer medical <em>trust</em> questions reliably — not generic trivia —
+          when inputs and outputs move between <strong>text</strong> and <strong>speech</strong>, across many languages.
         </p>
         <div class="actions">
-          <a class="button button-primary" href="https://github.com/OmniTrust-Med/OmniTrust-Med">View project on GitHub</a>
-          <a class="button button-secondary" href="https://github.com/OmniTrust-Med/OmniTrust-Med.github.io">Website source</a>
+          <a class="button button-primary" href="https://github.com/OmniTrust-Med/OmniTrust-Med">GitHub repository</a>
+          <a class="button button-secondary" href="https://huggingface.co/datasets/OmniTrust-Med/OmniTrust-Med">Human dataset (HF)</a>
+          <a class="button button-secondary" href="https://huggingface.co/datasets/OmniTrust-Med/Synth-OmniTrust-Med">Synth dataset (HF)</a>
         </div>
       </div>
 
-      <aside class="hero-card" aria-label="Project highlights">
-        <h2>What the project emphasizes</h2>
+      <aside class="hero-card" aria-label="Core motivation">
+        <h2>Why we are building this</h2>
         <ul>
-          <li>Secure device, software, and identity lifecycles for healthcare environments.</li>
-          <li>Visibility into trust, integrity, and compliance across connected systems.</li>
-          <li>Support for modern cryptography, automation, and security governance.</li>
+          <li><strong>Multilinguality</strong> — most trust and speech benchmarks stay English-centric; we target 20 languages from the start.</li>
+          <li><strong>Multimodality</strong> — the same validated items appear as text, human recordings, and TTS, so modality swaps are measurable.</li>
+          <li><strong>Open science</strong> — documented pipelines, public artifacts, and reproducible evaluation protocols — no product pitch.</li>
         </ul>
       </aside>
     </section>
 
-    <section class="grid" aria-label="Project details">
+    <section class="status-banner" aria-label="Project status">
+      <span class="status-badge">Work in progress</span>
+      <p>
+        The benchmark pipeline, validation tools, recordings, and evaluation harness are under active development.
+        This page is intentionally high-level; the
+        <a href="https://github.com/OmniTrust-Med/OmniTrust-Med">repository README</a>
+        tracks phases, scripts, and current priorities (French and Hindi first).
+      </p>
+    </section>
+
+    <section class="grid" aria-label="Project overview">
       <article class="panel">
-        <h2>Mission</h2>
+        <h2>What OmniTrust-Med is</h2>
         <p>
-          Build a practical foundation for trustworthy healthcare technology by connecting security, lifecycle management,
-          and operational assurance in one place.
+          A multilingual, multimodal multiple-choice benchmark for medical <em>trust</em> questions — items designed
+          to probe faithful, reliable answers rather than surface-level medical knowledge alone.
+        </p>
+        <p>
+          Each item can be evaluated in text-only and speech-mediated settings, with human-validated translations,
+          medical entity spans, human audio (multi-speaker English), and a Qwen3-TTS synthetic counterpart for comparison.
         </p>
       </article>
 
       <article class="panel">
-        <h2>Core focus areas</h2>
-        <ul class="list">
-          <li>Medical device and firmware trust</li>
-          <li>Identity, certificates, keys, and secrets</li>
-          <li>Auditability and compliance readiness</li>
-          <li>Secure cloud and AI-enabled workflows</li>
-        </ul>
+        <h2>Pipeline at a glance</h2>
+        <ol class="pipeline">
+          <li><strong>Phase 1</strong> — LLM translation and entity annotation with voting.</li>
+          <li><strong>Phase 2</strong> — Human validation of text and entity spans.</li>
+          <li><strong>Phase 3</strong> — Human recordings and Qwen3-TTS synthesis.</li>
+          <li><strong>Phase 4</strong> — ASR + LLM cascade and end-to-end omni-model evaluation.</li>
+          <li><strong>Phase 5</strong> — Hugging Face release, paper, harness integration, leaderboard.</li>
+        </ol>
       </article>
 
       <article class="panel">
-        <h2>Get involved</h2>
+        <h2>Research questions (preview)</h2>
+        <ul class="list">
+          <li>How does trust MCQA accuracy change across languages and modalities?</li>
+          <li>Where do ASR errors hurt medically relevant terms?</li>
+          <li>Does speaker diversity (gender, accent) shift measured trust?</li>
+          <li>How far can high-quality TTS stand in for human speech?</li>
+        </ul>
+        <p style="margin-top: 1rem; margin-bottom: 0;">
+          Full experiment matrix and metrics are documented in the repository; results will appear here when ready.
+        </p>
+      </article>
+    </section>
+
+    <section class="grid grid-two" aria-label="Languages and artifacts">
+      <article class="panel">
+        <h2>20 target languages</h2>
         <p>
-          Follow the GitHub project for updates, implementation details, and future documentation as OmniTrust-Med evolves.
+          English is the source language. Other languages are produced via translation, entity enrichment, and human review
+          before audio work begins.
+        </p>
+        <div class="lang-tags" aria-label="Language codes">
+          <span>en</span><span>fr</span><span>hi</span><span>mr</span><span>es</span><span>it</span><span>ar</span>
+          <span>hbs</span><span>ary</span><span>zh</span><span>zh-TW</span><span>vi</span><span>ru</span><span>bho</span>
+          <span>uk</span><span>sq</span><span>cs</span><span>apc</span><span>fa</span><span>si</span>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Artifacts &amp; links</h2>
+        <ul class="links-list">
+          <li><a href="https://github.com/OmniTrust-Med/OmniTrust-Med">Source code &amp; workflow</a></li>
+          <li><a href="https://huggingface.co/datasets/OmniTrust-Med/OmniTrust-Med">OmniTrust-Med</a> — validated text + human speech</li>
+          <li><a href="https://huggingface.co/datasets/OmniTrust-Med/Synth-OmniTrust-Med">Synth-OmniTrust-Med</a> — validated text + Qwen3-TTS</li>
+          <li><a href="https://github.com/OmniTrust-Med/OmniTrust-Med.github.io">Website source</a></li>
+        </ul>
+        <p style="margin-top: 1rem; margin-bottom: 0;">
+          Dataset schema, entity format, and evaluation plans live in the repo; a paper draft is in preparation.
         </p>
       </article>
     </section>
 
     <footer>
-      Built with a minimal static site so it can be published directly with GitHub Pages.
+      OmniTrust-Med — an open benchmark project by researchers, for the research community.
+      Built as a minimal static site for GitHub Pages.
     </footer>
   </main>
 </body>
